@@ -1,4 +1,5 @@
 open System
+open System.Text.Json
 
 type Decision(id: Guid, description: string, note: string, child: option<seq<Decision>>) =
     member this.Id = id
@@ -48,4 +49,10 @@ let decision =
         )
     )
 
-printfn $"{renderText decision}"
+let serializedDecision = JsonSerializer.Serialize decision
+
+let deserializedDecision = JsonSerializer.Deserialize<Decision> serializedDecision
+
+printfn $"{serializedDecision}"
+
+printfn $"{renderText deserializedDecision}"
